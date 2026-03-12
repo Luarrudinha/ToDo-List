@@ -1,0 +1,229 @@
+/* --- CONFIGURAÇÕES GERAIS --- */
+:root {
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --bg-page: #f8f9fa;
+  --card-bg: #ffffff;
+  --text-main: #1e293b;
+  --text-sub: #64748b;
+  --danger: #ef4444;
+  --danger-light: #fee2e2;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-page);
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa; /* Cor de fundo idêntica ao print */
+  padding: 40px 20px;
+}
+
+/* Centralização do Login (Não mexe no que já funciona) */
+.App.auth-container {
+  justify-content: center;
+}
+
+/* Info do Usuário e Botão Sair Rosa */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #64748b;
+  margin-bottom: 30px;
+}
+
+.btn-logout {
+  background-color: #fee2e2; /* Fundo rosa claro */
+  color: #ef4444;           /* Texto vermelho */
+  border: none;
+  padding: 4px 12px;
+  border-radius: 20px;      /* Totalmente arredondado */
+  font-weight: bold;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+/* O "Cartão" Branco Centralizado do Canva */
+.content-container {
+  background: white;
+  width: 100%;
+  max-width: 550px;         /* Largura exata do modelo */
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); /* Sombra bem sutil */
+}
+
+/* --- ESTILO DA CAIXA DE LOGIN / CADASTRO --- */
+.auth-box {
+  background: var(--card-bg);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.auth-box h1 {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 24px;
+}
+
+/* Estilizando os Inputs do Login (que vêm dos componentes Login/Register) */
+.auth-box input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.auth-box button[type="submit"], 
+.btn-add {
+  width: 100%;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.2s;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--primary);
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 15px;
+  font-weight: 500;
+}
+
+/* --- ESTILO DA TELA DE TAREFAS (DASHBOARD) --- */
+/* Quando logado, não queremos o conteúdo no centro vertical da tela toda */
+.App:has(header) {
+  justify-content: flex-start;
+  padding-top: 60px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  color: var(--text-sub);
+}
+
+.btn-logout {
+  background-color: var(--danger-light);
+  color: var(--danger);
+  border: none;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Cartão Branco das Tarefas */
+main {
+  background: var(--card-bg);
+  width: 100%;
+  max-width: 550px;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Item da Tarefa na Lista */
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin-top: 20px;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+}
+.task-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Inputs Lado a Lado (Igual ao seu segundo print) */
+.task-form-container form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.task-form-container input {
+  flex: 1;                  /* Faz os inputs dividirem o espaço */
+  min-width: 200px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+/* Botão Adicionar à Lista Roxo */
+.btn-add {
+  width: 100%;
+  background-color: #6366f1; /* Roxo vibrante */
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.btn-delete {
+  background-color: #fee2e2;
+  color: #ef4444;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+  color: var(--text-sub);
+}

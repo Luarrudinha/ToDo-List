@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+
+  mysql:
+    image: mysql:8
+    container_name: mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: meubanco
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  api:
+    build: .
+    container_name: node-api
+    restart: always
+    ports:
+      - "3003:3003"
+    depends_on:
+      - mysql
+
+  frontend:
+    build: ./frontend
+    container_name: react-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+
+volumes:
+  mysql_data:
