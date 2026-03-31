@@ -1,53 +1,103 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
+
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const db = mysql.createConnection({
-  host: "mysql",
-  user: "root",
-  password: "123456", // Verifique se sua senha é essa mesmo
-  database: "meubanco",
-});
+function connectDatabase() {
+  const db = mysql.createConnection({
+    host: "mysql-db",
+    user: "root",
+    password: "123456",
+    database: "meubanco",
+  });
 
+  db.connect((err) => {
+    if (err) {
+      console.log("MySQL ainda não está pronto. Tentando novamente em 5s...");
+      setTimeout(connectDatabase, 5000);
+      return;
+    }
+
+    console.log("✅ Conectado ao MySQL!");
+  });
+
+  return db;
+}
+
+const db = connectDatabase();
+
+module.exports = db;
 
 
 // --- Rota de Cadastro (Register) ---
-app.post("/users", (req, res) => {
-  const { name, email, password } = req.body; // O 'name' deve estar aqui!
-  const sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
-  
-  db.query(sql, [name, email, password], (err, result) => {
-    if (err) {
-      console.error("Erro no Banco:", err); // Isso vai mostrar o erro no terminal
-      return res.status(500).json({ message: "Erro ao salvar no banco", error: err });
-    }
-    res.json({ id: result.insertId, name });
-  });
+
+app.post("/users", async (req, res) => {
+  const { name, email, password } = req.body;
+
+  try {
+    // 👇 criptografa a senha
+    const senhaCriptografada = await bcrypt.hash(password, 10);
+
+    const sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+
+    db.query(sql, [name, email, senhaCriptografada], (err, result) => {
+      if (err) {
+        console.error("Erro no banco:", err);
+        return res.status(500).json({ message: "Erro ao salvar usuário" });
+      }
+
+      res.json({ id: result.insertId, name });
+    });
+
+  } catch (erro) {
+    console.error("Erro ao criptografar:", erro);
+    res.status(500).json({ message: "Erro no servidor" });
+  }
 });
-
-
 
 // --- Rota de Login (Ajustada para retornar o Nome) ---
 // No seu server.js
+
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
-  const sql = "SELECT id, name FROM users WHERE email = ? AND password = ?";
-  
-  db.query(sql, [email, password], (err, result) => {
+
+  // 🔹 busca o usuário só pelo email
+  const sql = "SELECT * FROM users WHERE email = ?";
+
+  db.query(sql, [email], async (err, result) => {
     if (err) return res.status(500).send(err);
-    if (result.length > 0) {
-      // Importante: enviar o ID e o NOME para o frontend
-      res.json({ id: result[0].id, name: result[0].name });
-    } else {
-      res.status(401).json({ message: "Credenciais inválidas" });
+
+    // usuário não encontrado
+    if (result.length === 0) {
+      return res.status(401).json({ message: "Credenciais inválidas" });
+    }
+
+    const usuario = result[0];
+
+    try {
+      // 🔹 compara senha digitada com a do banco
+      const senhaCorreta = await bcrypt.compare(password, usuario.password);
+
+      if (!senhaCorreta) {
+        return res.status(401).json({ message: "Credenciais inválidas" });
+      }
+
+      // 🔹 login ok
+      res.json({
+        id: usuario.id,
+        name: usuario.name
+      });
+
+    } catch (erro) {
+      res.status(500).json({ message: "Erro ao verificar senha" });
     }
   });
 });
-
 
 
 // --- Rotas de Tarefas (Tasks) ---

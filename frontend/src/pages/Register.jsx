@@ -5,8 +5,9 @@ function Register({ onRegister, onBack }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  //função que executa o cadastro
   function handleRegister(event) {
-    event.preventDefault();
+    event.preventDefault();                                   //impede o comportamento normal de recarregar a página
     
     // Objeto com os dados para conferirmos no console (F12)
     const userData = { name, email, password };
@@ -16,7 +17,9 @@ function Register({ onRegister, onBack }) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData) 
-    })
+    }) 
+
+    //.then = quando a resposta chegar execute isso:
     .then(async (res) => {
       // Se o servidor responder erro (ex: email duplicado)
       if (!res.ok) {
@@ -65,7 +68,7 @@ function Register({ onRegister, onBack }) {
         
         <input 
           type="password" 
-          placeholder="Senha" 
+          placeholder="Senha com 6 dígitos" 
           value={password} 
           onChange={e => setPassword(e.target.value)} 
           required 
