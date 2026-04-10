@@ -35,6 +35,9 @@ module.exports = db;
 
 
 // --- Rota de Cadastro (Register) ---
+app.get("/", (req, res) => {
+  res.send("API rodando 🚀");
+});
 
 app.post("/users", async (req, res) => {
   const { name, email, password } = req.body;
