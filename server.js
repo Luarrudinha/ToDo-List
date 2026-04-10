@@ -115,11 +115,15 @@ app.post("/tasks", (req, res) => {
 });
 
 app.get("/tasks", (req, res) => {
+  console.log("🔥 entrou na rota /tasks");
+
   db.query("SELECT * FROM tasks", (err, results) => {
     if (err) {
-      console.log("ERRO SQL:", err); // 👈 MUITO IMPORTANTE
+      console.log("❌ ERRO SQL:", err);
       return res.status(500).json(err);
     }
+
+    console.log("✅ deu certo");
     res.json(results);
   });
 });
