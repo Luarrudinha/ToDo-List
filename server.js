@@ -115,11 +115,12 @@ app.post("/tasks", (req, res) => {
 });
 
 app.get("/tasks", (req, res) => {
-  const user_id = req.query.user_id;
-  const sql = "SELECT * FROM tasks WHERE user_id=?";
-  db.query(sql, [user_id], (err, result) => {
-    if (err) return res.status(500).json(err);
-    res.json(result);
+  db.query("SELECT * FROM tasks", (err, results) => {
+    if (err) {
+      console.log("ERRO SQL:", err); // 👈 MUITO IMPORTANTE
+      return res.status(500).json(err);
+    }
+    res.json(results);
   });
 });
 
