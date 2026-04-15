@@ -1,0 +1,171 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: API de To Do List
+
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/inpe-714/todo-api/1.0.0
+  - url: http://localhost:3003/v1
+
+paths: 
+  /:
+    get:
+      summary: Teste da API
+      description: "Endpoint de teste da API"
+      responses:
+        "200":
+          description: "API rodando"
+
+  /users:
+    post:
+      summary: Criar usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Usuário criado
+        "500":
+          description: Erro no servidor
+    get:
+      summary: Listar todos os usuários
+      description: Retorna todos os usuários cadastrados no sistema
+      responses:
+        "200":
+          description: Lista de usuários
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: "Mariana"
+                    email:
+                      type: string
+                      example: "mariana@gmail.com"
+
+        "500":
+          description: Erro no servidor
+
+  /login:
+    post:
+      summary: Login do usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login OK
+        "401":
+          description: Credenciais inválidas
+
+  /tasks:
+    post:
+      summary: Criar tarefa
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                user_id:
+                  type: integer
+      responses:
+        "200":
+          description: Tarefa criada
+
+    get:
+      summary: Listar tarefas por usuário
+      parameters:
+        - in: query
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Lista de tarefas
+
+  /tasks/{id}:
+    get:
+      summary: Buscar tarefa por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: user_id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Tarefa encontrada
+        "404":
+          description: Tarefa não encontrada
+
+    put:
+      summary: Atualizar status da tarefa
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                completed:
+                  type: boolean
+      responses:
+        "200":
+          description: Atualizado com sucesso
+  
+    delete:
+      summary: Deletar tarefa
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Tarefa removida

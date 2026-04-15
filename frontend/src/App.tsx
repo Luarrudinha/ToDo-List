@@ -57,7 +57,7 @@ function App() {
 
     if (novoTitulo) {
       fetch(`http://localhost:3003/tasks/${task.id}/edit`, {
-        method: "PUT",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: novoTitulo, description: novaDescricao }),
       })

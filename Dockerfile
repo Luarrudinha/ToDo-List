@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 3003
 
-CMD ["node", "server.js"]
+CMD node server.js && tail -f /dev/null
