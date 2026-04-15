@@ -3,9 +3,9 @@ const mysql = require("mysql2");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const API_PREFIX = "/v1";
-const swaggerUi = require("swagger-ui-express");
-const YAML = require("yamljs"); // ✅ correto
-const path = require("path");
+//const swaggerUi = require("swagger-ui-express");
+//const YAML = require("yamljs"); // ✅ correto
+//const path = require("path");
 
 //const swaggerDocument = YAML.load( path.join(__dirname, "swagger.yaml"));
 
