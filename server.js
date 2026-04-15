@@ -3,17 +3,12 @@ const mysql = require("mysql2");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const API_PREFIX = "/v1";
-//const swaggerUi = require("swagger-ui-express");
-//const YAML = require("yamljs"); // ✅ correto
-//const path = require("path");
 
-//const swaggerDocument = YAML.load( path.join(__dirname, "swagger.yaml"));
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-//app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // --- Configuração do Banco de Dados ---
 function connectDatabase() {
