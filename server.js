@@ -7,9 +7,7 @@ const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs"); // ✅ correto
 const path = require("path");
 
-const swaggerDocument = YAML.load(
-  path.join(__dirname, "swagger.yaml")
-);
+//const swaggerDocument = YAML.load( path.join(__dirname, "swagger.yaml"));
 
 const app = express();
 app.use(cors());
