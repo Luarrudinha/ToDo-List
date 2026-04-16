@@ -4,6 +4,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import TaskForm from "./components/TaskForm";
 
+const API_URL = "https://todo-list-api-fi3q.onrender.com/v1";
+
 type Task = {
   id: number;
   title: string;
@@ -16,15 +18,16 @@ function App() {
   const [userName, setUserName] = useState<string | null>(localStorage.getItem("user_name"));
   const [showRegister, setShowRegister] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
+  
 
   // 1. Busca tarefas filtrando pelo ID do usuário logado
   function loadTasks() {
-    if (!userId) return;
-    fetch(`https://todo-list-api-f13q.onrender.com/tasks?user_id=${userId}`)
-      .then((res) => res.json())
-      .then((data) => setTasks(data))
-      .catch((err) => console.error("Erro ao carregar tarefas:", err));
-  }
+  if (!userId) return;
+  fetch(`${API_URL}/tasks?user_id=${userId}`)
+    .then((res) => res.json())
+    .then((data) => setTasks(data))
+    .catch((err) => console.error("Erro ao carregar tarefas:", err));
+}
 
   useEffect(() => {
     loadTasks();
@@ -33,15 +36,14 @@ function App() {
   // 2. Função para EXCLUIR
   function deleteTask(id: number) {
     if (window.confirm("Tem certeza que deseja excluir esta tarefa?")) {
-      fetch(`https://todo-list-api-f13q.onrender.com/tasks/${id}`, { method: "DELETE" })
-        .then(() => loadTasks())
+      fetch(`${API_URL}/tasks/${id}`, { method: "DELETE" })        .then(() => loadTasks())
         .catch((err) => console.error(err));
     }
   }
 
   // 3. Função para o CHECKBOX (concluir)
   function toggleTask(task: Task) {
-    fetch(`https://todo-list-api-f13q.onrender.com/tasks/${task.id}`, {
+    fetch(`${API_URL}/tasks/${task.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ completed: task.completed ? 0 : 1 }),
@@ -56,8 +58,8 @@ function App() {
     const novaDescricao = prompt("Edite a descrição:", task.description);
 
     if (novoTitulo) {
-      fetch(`https://todo-list-api-f13q.onrender.com/tasks/${task.id}/edit`, {
-        method: "POST",
+      fetch(`${API_URL}/tasks/${task.id}/edit`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: novoTitulo, description: novaDescricao }),
       })
