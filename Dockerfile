@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 3003
 
-CMD ["sh", "-c", "npm install && node server.js || tail -f /dev/null"]
+CMD ["node", "server.js"]
