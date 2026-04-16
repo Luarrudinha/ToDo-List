@@ -5,7 +5,6 @@ import Register from "./pages/Register";
 import TaskForm from "./components/TaskForm";
 
 const API_URL = "https://todo-list-api-fi3q.onrender.com/v1";
-
 type Task = {
   id: number;
   title: string;
@@ -22,12 +21,12 @@ function App() {
 
   // 1. Busca tarefas filtrando pelo ID do usuário logado
   function loadTasks() {
-  if (!userId) return;
-  fetch(`${API_URL}/tasks?user_id=${userId}`)
-    .then((res) => res.json())
-    .then((data) => setTasks(data))
-    .catch((err) => console.error("Erro ao carregar tarefas:", err));
-}
+    if (!userId) return;
+    fetch(`http://localhost:3003/tasks?user_id=${userId}`)
+      .then((res) => res.json())
+      .then((data) => setTasks(data))
+      .catch((err) => console.error("Erro ao carregar tarefas:", err));
+  }
 
   useEffect(() => {
     loadTasks();
@@ -36,14 +35,15 @@ function App() {
   // 2. Função para EXCLUIR
   function deleteTask(id: number) {
     if (window.confirm("Tem certeza que deseja excluir esta tarefa?")) {
-      fetch(`${API_URL}/tasks/${id}`, { method: "DELETE" })        .then(() => loadTasks())
+      fetch(`http://localhost:3003/tasks/${id}`, { method: "DELETE" })
+        .then(() => loadTasks())
         .catch((err) => console.error(err));
     }
   }
 
   // 3. Função para o CHECKBOX (concluir)
   function toggleTask(task: Task) {
-    fetch(`${API_URL}/tasks/${task.id}`, {
+    fetch(`http://localhost:3003/tasks/${task.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ completed: task.completed ? 0 : 1 }),
@@ -58,8 +58,8 @@ function App() {
     const novaDescricao = prompt("Edite a descrição:", task.description);
 
     if (novoTitulo) {
-      fetch(`${API_URL}/tasks/${task.id}/edit`, {
-        method: "PUT",
+      fetch(`http://localhost:3003/tasks/${task.id}/edit`, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: novoTitulo, description: novaDescricao }),
       })
