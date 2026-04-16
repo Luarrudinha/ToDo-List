@@ -38,7 +38,8 @@ function connectDatabase() {
 
   return db;
 }
-const db = connectDatabase();
+mysql.createConnection(process.env.DATABASE_URL);
+//const db = connectDatabase();
 
 // --- Rota de Teste ---
 app.get("/", (req, res) => {
