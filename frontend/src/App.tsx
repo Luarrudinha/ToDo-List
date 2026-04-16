@@ -20,7 +20,7 @@ function App() {
   // 1. Busca tarefas filtrando pelo ID do usuário logado
   function loadTasks() {
     if (!userId) return;
-    fetch(`http://localhost:3003/tasks?user_id=${userId}`)
+    fetch(`https://todo-list-api-f13q.onrender.com/tasks?user_id=${userId}`)
       .then((res) => res.json())
       .then((data) => setTasks(data))
       .catch((err) => console.error("Erro ao carregar tarefas:", err));
@@ -33,7 +33,7 @@ function App() {
   // 2. Função para EXCLUIR
   function deleteTask(id: number) {
     if (window.confirm("Tem certeza que deseja excluir esta tarefa?")) {
-      fetch(`http://localhost:3003/tasks/${id}`, { method: "DELETE" })
+      fetch(`https://todo-list-api-f13q.onrender.com/tasks/${id}`, { method: "DELETE" })
         .then(() => loadTasks())
         .catch((err) => console.error(err));
     }
@@ -41,7 +41,7 @@ function App() {
 
   // 3. Função para o CHECKBOX (concluir)
   function toggleTask(task: Task) {
-    fetch(`http://localhost:3003/tasks/${task.id}`, {
+    fetch(`https://todo-list-api-f13q.onrender.com/tasks/${task.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ completed: task.completed ? 0 : 1 }),
@@ -56,7 +56,7 @@ function App() {
     const novaDescricao = prompt("Edite a descrição:", task.description);
 
     if (novoTitulo) {
-      fetch(`http://localhost:3003/tasks/${task.id}/edit`, {
+      fetch(`https://todo-list-api-f13q.onrender.com/tasks/${task.id}/edit`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: novoTitulo, description: novaDescricao }),
