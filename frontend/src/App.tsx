@@ -4,7 +4,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import TaskForm from "./components/TaskForm";
 
-const API_URL = "https://todo-list-api-fi3q.onrender.com/v1";
 type Task = {
   id: number;
   title: string;
@@ -17,7 +16,6 @@ function App() {
   const [userName, setUserName] = useState<string | null>(localStorage.getItem("user_name"));
   const [showRegister, setShowRegister] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
-  
 
   // 1. Busca tarefas filtrando pelo ID do usuário logado
   function loadTasks() {
