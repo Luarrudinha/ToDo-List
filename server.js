@@ -3,20 +3,27 @@ const mysql = require("mysql2");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const API_PREFIX = "/v1";
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs"); // ✅ correto
+const path = require("path");
 
+const swaggerDocument = YAML.load(
+  path.join(__dirname, "swagger.yaml")
+);
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // --- Configuração do Banco de Dados ---
 function connectDatabase() {
   const db = mysql.createConnection({
-    host: process.env.DB_HOST || 'mysql', 
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '123456',
-    database: process.env.DB_NAME || 'meubanco',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     port: process.env.DB_PORT || 3306
   });
 
@@ -198,7 +205,7 @@ app.put(`${API_PREFIX}/tasks/:id/edit`, (req, res) => {
 });
 
 // --- Inicialização do Servidor ---
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT ||3003;
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
