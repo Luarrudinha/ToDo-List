@@ -13,7 +13,7 @@ function Register({ onRegister, onBack }) {
     const userData = { name, email, password };
     console.log("Tentando cadastrar:", userData);
 
-    fetch("http://localhost:3003/users", {
+    fetch("http://localhost:3003/v1/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData) 

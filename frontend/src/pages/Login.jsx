@@ -6,7 +6,7 @@ function Login({ onLogin }) {
 
   function handleLogin(event) {
     event.preventDefault();
-    fetch("http://localhost:3003/login", {
+    fetch("http://localhost:3003/v1/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })
